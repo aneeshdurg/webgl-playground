@@ -1,0 +1,26 @@
+<script src="https://aneeshdurg.me/webgl-common/common.js"></script>
+<script src="prog.js"></script>
+
+<script src="../provider/provider.js"></script>
+<script src="../provider/glass.js"></script>
+<script src="../floating_orbs/script.js"></script>
+<script src="../provider/orbs.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        await loadTwgl();
+
+        const params = new URLSearchParams(location.search);
+        const el = await get_el(params);
+
+        console.log("Mode", params.get("mode") || "RANDOM");
+        kaleidoscope_main(
+            document.getElementById("glcanvas-1"),
+            el,
+            params.get("mode") || "RANDOM"
+        );
+    });
+</script>
+
+<canvas id="glcanvas-1" style="width: 50%"></canvas>
+<div style="width: 10%; height: 10%;" id="src"></div>

@@ -37,9 +37,4 @@ void main() {
 
     vec4 color = texelFetch(u_texture, ivec2(final), 0);
     color_out = color;
-
-    //float t = 0.;//sin(time / 10.);
-    //float strength = 100. * t + 10.;
-    //vec3 adjust = abs(sin(time * color.rgb) / strength);
-    //color_out = vec4(color.rgb + adjust, 1.);
 }

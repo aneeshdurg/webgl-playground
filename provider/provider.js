@@ -30,9 +30,9 @@ function get_provider(obj) {
     console.log(p.get_source());
     // document.body.appendChild(g.get_source());
 
-    function f() {
+    function f(time) {
         // console.log("!");
-        p.tick();
+        p.tick(time);
         requestAnimationFrame(f);
     }
     requestAnimationFrame(f);
@@ -40,8 +40,9 @@ function get_provider(obj) {
     return p.get_source();
 }
 
-async function get_el(params) {
-    const src = params.get("src");
+async function get_el(params, key) {
+    key = key || "src";
+    const src = params.get(key);
     if (src) {
         const img = new Image();
         img.src = src;

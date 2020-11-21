@@ -1,10 +1,13 @@
-class Swirl {
+class Scatter {
     dimensions = [1000, 1000];
 
-    constructor(canvas, img, fragShader) {
-        this.img = img;
+    constructor(canvas, img_1, img_2, fragShader, mousecontrols) {
+        this.img_1 = img_1;
+        this.img_dimensions_1 = [img_1.width || img_1.videoWidth, img_1.height || img_1.videoHeight];
 
-        this.img_dimensions = [img.width || img.videoWidth, img.height || img.videoHeight];
+        this.img_2 = img_2;
+
+        this.img_dimensions_2 = [img_2.width || img_2.videoWidth, img_2.height || img_2.videoHeight];
 
         this.dimensions = [1000, 1000];
 
@@ -19,15 +22,18 @@ class Swirl {
         const bufferInfo = twgl.createBufferInfoFromArrays(this.gl, bufferArrays);
         setupProgram(this.gl, this.programInfo, bufferInfo);
 
-        this.tex = createTexture(this.gl, this.img_dimensions, img);
+        this.tex_1 = createTexture(this.gl, this.img_dimensions_1, img_1);
+        this.tex_2 = createTexture(this.gl, this.img_dimensions_2, img_2);
     }
 
     render(time) {
         // TODO only use one number for dimensions and always assume square
         twgl.setUniforms(this.programInfo, {
             u_dimensions: this.dimensions,
-            u_img_dimensions: this.img_dimensions,
-            u_texture: this.tex,
+            u_img_dimensions_1: this.img_dimensions_1,
+            u_img_dimensions_2: this.img_dimensions_2,
+            u_texture_1: this.tex_1,
+            u_texture_2: this.tex_2,
             u_time: time,
         });
 
@@ -37,27 +43,37 @@ class Swirl {
     updateTexture() {
         updateTexture(
             this.gl,
-            this.img_dimensions,
-            this.tex,
-            this.img
+            this.img_dimensions_1,
+            this.tex_1,
+            this.img_1
+        );
+
+        updateTexture(
+            this.gl,
+            this.img_dimensions_2,
+            this.tex_2,
+            this.img_2
         );
     }
 }
 
-async function swirl_main(canvas, img, root) {
+async function scatter_main(canvas, img_1, img_2, root) {
     root = root || ".";
 
     await loadTwgl();
 
     const fragShader = await getFile(root + "/compute.frag.c");
-    const obj = new Swirl(canvas, img, fragShader);
+    const obj = new Scatter(canvas, img_1, img_2, fragShader);
     function f(time) {
         obj.render(time);
         requestAnimationFrame(f);
     }
 
-    if (img.tagName === "VIDEO" || img.tagName == "CANVAS") {
-        obj.enableSrcRotation = false;
+    if (img_1.tagName === "VIDEO" || img_1.tagName == "CANVAS") {
+        setInterval(() => {
+            obj.updateTexture();
+        }, 5);
+    } else if (img_2.tagName === "VIDEO" || img_2.tagName == "CANVAS") {
         setInterval(() => {
             obj.updateTexture();
         }, 5);

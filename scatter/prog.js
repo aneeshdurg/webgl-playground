@@ -1,7 +1,7 @@
 class Scatter {
     dimensions = [1000, 1000];
 
-    constructor(canvas, img, fragShader, mousecontrols) {
+    constructor(canvas, img, fragShader) {
         this.img = img;
 
         this.img_dimensions = [img.width || img.videoWidth, img.height || img.videoHeight];
@@ -44,13 +44,13 @@ class Scatter {
     }
 }
 
-async function scatter_main(canvas, img, mode, root) {
+async function scatter_main(canvas, img, root) {
     root = root || ".";
 
     await loadTwgl();
 
     const fragShader = await getFile(root + "/compute.frag.c");
-    const obj = new Scatter(canvas, img, fragShader, mode !== "RANDOM");
+    const obj = new Scatter(canvas, img, fragShader);
     function f(time) {
         obj.render(time);
         requestAnimationFrame(f);

@@ -11,9 +11,14 @@
         await loadTwgl();
 
         const params = new URLSearchParams(location.search);
-        const el = await get_el(params);
+        const el_1 = await get_el(params, "src1");
+        const el_2 = await get_el(params, "src2");
 
-        scatter_main(document.getElementById("glcanvas-1"), el);
+        scatter_main(
+            document.getElementById("glcanvas-1"),
+            el_1,
+            el_2,
+        );
     });
 </script>
 

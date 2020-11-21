@@ -1,4 +1,4 @@
-class Swirl {
+class Voronoi {
     dimensions = [1000, 1000];
 
     constructor(canvas, img, fragShader) {
@@ -19,19 +19,29 @@ class Swirl {
         const bufferInfo = twgl.createBufferInfoFromArrays(this.gl, bufferArrays);
         setupProgram(this.gl, this.programInfo, bufferInfo);
 
+        this.fbs = new FrameBufferManager(this.gl, this.dimensions);
         this.tex = createTexture(this.gl, this.img_dimensions, img);
     }
 
     render(time) {
-        // TODO only use one number for dimensions and always assume square
+        this.fbs.bind_dst();
         twgl.setUniforms(this.programInfo, {
             u_dimensions: this.dimensions,
             u_img_dimensions: this.img_dimensions,
-            u_texture: this.tex,
-            u_time: time,
+            u_texture_img: this.tex,
+            u_texture: this.fbs.src(),
+            u_render: false,
         });
-
         render(this.gl);
+
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        twgl.setUniforms(this.programInfo, {
+            u_texture: this.fbs.dst(),
+            u_render: true
+        });
+        render(this.gl);
+
+        this.fbs.flipflop();
     }
 
     updateTexture() {
@@ -44,23 +54,24 @@ class Swirl {
     }
 }
 
-async function swirl_main(canvas, img, root) {
+async function voronoi_main(canvas, img, root) {
     root = root || ".";
 
     await loadTwgl();
 
     const fragShader = await getFile(root + "/compute.frag.c");
-    const obj = new Swirl(canvas, img, fragShader);
+    const obj = new Voronoi(canvas, img, fragShader);
     function f(time) {
         obj.render(time);
         requestAnimationFrame(f);
     }
 
     if (img.tagName === "VIDEO" || img.tagName == "CANVAS") {
-        obj.enableSrcRotation = false;
-        setInterval(() => {
-            obj.updateTexture();
-        }, 5);
+        setTimeout(() => {
+            setInterval(() => {
+                obj.updateTexture();
+            }, 500);
+        }, 500);
     }
 
     requestAnimationFrame(f);

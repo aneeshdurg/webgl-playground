@@ -13,11 +13,7 @@
         const params = new URLSearchParams(location.search);
         const el = await get_el(params);
 
-        scatter_main(
-            document.getElementById("glcanvas-1"),
-            el,
-            params.get("mode") || "RANDOM"
-        );
+        swirl_main(document.getElementById("glcanvas-1"), el);
     });
 </script>
 

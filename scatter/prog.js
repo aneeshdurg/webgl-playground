@@ -1,5 +1,6 @@
 class Scatter {
     dimensions = [1000, 1000];
+    block = 10;
 
     constructor(canvas, img, fragShader) {
         this.img = img;
@@ -27,11 +28,20 @@ class Scatter {
         twgl.setUniforms(this.programInfo, {
             u_dimensions: this.dimensions,
             u_img_dimensions: this.img_dimensions,
+            u_block: [this.block, this.block],
             u_texture: this.tex,
             u_time: time,
         });
 
         render(this.gl);
+    }
+
+    block_inc() {
+        this.block++;
+    }
+
+    block_dec() {
+        this.block--;
     }
 
     updateTexture() {

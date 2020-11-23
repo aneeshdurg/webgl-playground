@@ -87,45 +87,47 @@ class Star extends BouncingShape {
     draw(ctx) {
         //ctx.fillStyle = this.params.color;
         // ctx.fillRect(this.position[0], this.position[1], 10, 10);
-        this.drawStar(ctx, this.position[0], this.position[1], 5, 10, 5);
+        this.drawStar(ctx, this.position[0], this.position[1], 5, 10 * this.params.factor, 5 * this.params.factor);
     }
 }
 
 class Glass extends Provider {
     setup() {
         this.setup_ctx();
+        const h = this.canvas.height / 200;
+        const w = this.canvas.width / 200;
 
         const params_and_counts = [
             {
-                params:  {color: "#FF000050", vel: 0.1, width: 10, height: 10},
+                params:  {color: "#FF000050", vel: 0.1, width: 10 * w, height: 10 * h},
                 count: 5,
             },
             {
-                params:  {color: "#00FF0050", vel: 0.1, width: 10, height: 10},
+                params:  {color: "#00FF0050", vel: 0.1, width: 10 * w, height: 10 * h},
                 count: 5,
             },
             {
-                params:  {color: "#0000FF50", vel: 0.1, width: 10, height: 10},
+                params:  {color: "#0000FF50", vel: 0.1, width: 10 * w, height: 10 * h},
                 count: 5,
             },
             {
-                params:  {color: "#FFFF0050", vel: 0.2, width: 20, height: 10},
+                params:  {color: "#FFFF0050", vel: 0.2, width: 20 * w, height: 10 * h},
                 count: 10,
             },
             {
-                params:  {color: "#FF00FF50", vel: 0.2, width: 10, height: 20},
+                params:  {color: "#FF00FF50", vel: 0.2, width: 10 * w, height: 20 * h},
                 count: 10,
             },
             {
-                params:  {color: "#00FFFF50", vel: 0.2, width: 5, height: 25},
+                params:  {color: "#00FFFF50", vel: 0.2, width: 5 * w, height: 25 * h},
                 count: 10,
             },
             {
-                params:  {color: "#59F8E8", vel: 0.1, width: 15, height: 15},
+                params:  {color: "#59F8E8", vel: 0.1, width: 15 * w, height: 15 * h},
                 count: 10,
             },
             {
-                params:  {color: "#EC368D", vel: 0.2, width: 10, height: 15},
+                params:  {color: "#EC368D", vel: 0.2, width: 10 * w, height: 15 * h},
                 count: 10,
             }
         ]
@@ -139,6 +141,7 @@ class Glass extends Provider {
             this.shapes.push(new Star(this.dimensions, {
                 color_outer: "#FF00FF50",
                 color_inner: "#0000FF50",
+                factor: Math.max(w, h),
                 vel: 0.2
             }));
         }

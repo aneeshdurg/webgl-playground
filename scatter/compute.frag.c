@@ -13,6 +13,7 @@ precision mediump int;
 uniform sampler2D u_texture;
 uniform vec2 u_dimensions;
 uniform vec2 u_img_dimensions;
+uniform vec2 u_block;
 uniform float u_time;
 
 out vec4 color_out;
@@ -24,15 +25,13 @@ void main() {
     c.y = 1. - c.y;
     c *= u_img_dimensions;
 
-    float blocky = 10.;
-    float blockx = 10.;
     float strength = 1.;//00. * abs(sin(time));
 
     vec2 final = c;
-    final.x += u_img_dimensions.x / strength * sin(time + floor(c.y / blocky));
+    final.x += u_img_dimensions.x / strength * sin(time + floor(c.y / u_block.y));
     final.x = float(int(final.x) % int(u_img_dimensions.x));
 
-    final.y += u_img_dimensions.y / strength * sin(time + floor(c.x / blockx));
+    final.y += u_img_dimensions.y / strength * sin(time + floor(c.x / u_block.x));
     final.y = float(int(final.y) % int(u_img_dimensions.y));
 
     vec4 color = texelFetch(u_texture, ivec2(final), 0);

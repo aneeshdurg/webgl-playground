@@ -25,7 +25,7 @@ class Provider {
 
 // Some convenience functions for providers
 function get_provider(obj) {
-    const p = new obj([200, 200]);
+    const p = new obj([1000, 1000]);
     p.setup();
     console.log(p.get_source());
     // document.body.appendChild(g.get_source());

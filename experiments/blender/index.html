@@ -1,7 +1,4 @@
-<script src="https://aneeshdurg.me/webgl-common/common.js"></script>
-<script src="../provider/provider.js"></script>
-<script src="prog.js"></script>
-
+<template>
 <script>
     document.addEventListener("DOMContentLoaded", async () => {
         await loadTwgl();
@@ -12,12 +9,10 @@
         const el_1 = await get_el(params, "src1");
         const el_2 = await get_el(params, "src2");
 
-        scatter_main(
-            document.getElementById("glcanvas-1"),
+        blender_main(
+            document.getElementById("glcanvas"),
             el_1,
             el_2,
         );
     });
 </script>
-
-<canvas id="glcanvas-1" style="width: 50%"></canvas>

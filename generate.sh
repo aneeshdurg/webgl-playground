@@ -1,7 +1,7 @@
 #!/bin/bash
 
-rm -rf build
-mkdir build
+rm -rf build/*
+mkdir -p build
 cp -r static/* build/
 for d in $(ls experiments/)
 do

@@ -1,8 +1,4 @@
-<script src="https://aneeshdurg.me/webgl-common/common.js"></script>
-<script src="prog.js"></script>
-
-<script src="../provider/provider.js"></script>
-
+<template>
 <script>
     document.addEventListener("DOMContentLoaded", async () => {
         await loadTwgl();
@@ -13,11 +9,9 @@
 
         console.log("Mode", params.get("mode") || "RANDOM");
         kaleidoscope_main(
-            document.getElementById("glcanvas-1"),
+            document.getElementById("glcanvas"),
             el,
             params.get("mode") || "RANDOM"
         );
     });
 </script>
-
-<canvas id="glcanvas-1" style="width: 50%"></canvas>

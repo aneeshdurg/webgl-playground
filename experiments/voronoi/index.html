@@ -1,6 +1,4 @@
-<script src="https://aneeshdurg.me/webgl-common/common.js"></script>
-<script src="../provider/provider.js"></script>
-<script src="prog.js"></script>
+<template>
 <script>
     document.addEventListener("DOMContentLoaded", async () => {
         await loadTwgl();
@@ -9,8 +7,6 @@
         const params = new URLSearchParams(location.search);
         const el = await get_el(params, "src", Dots);
 
-        voronoi_main(document.getElementById("glcanvas-1"), el);
+        voronoi_main(document.getElementById("glcanvas"), el);
     });
 </script>
-
-<canvas id="glcanvas-1" style="width: 50%"></canvas>

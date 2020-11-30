@@ -1,4 +1,4 @@
-class Scatter {
+class Blender {
     dimensions = [1000, 1000];
 
     constructor(canvas, img_1, img_2, fragShader, mousecontrols) {
@@ -57,13 +57,13 @@ class Scatter {
     }
 }
 
-async function scatter_main(canvas, img_1, img_2, root) {
+async function blender_main(canvas, img_1, img_2, root) {
     root = root || ".";
 
     await loadTwgl();
 
     const fragShader = await getFile(root + "/compute.frag.c");
-    const obj = new Scatter(canvas, img_1, img_2, fragShader);
+    const obj = new Blender(canvas, img_1, img_2, fragShader);
     function f(time) {
         obj.render(time);
         requestAnimationFrame(f);

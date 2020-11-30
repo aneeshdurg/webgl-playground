@@ -1,4 +1,4 @@
-class Tixy {
+class Flower {
     dimensions = [2000, 2000];
     gridSize = 20;
 
@@ -29,16 +29,16 @@ class Tixy {
     }
 }
 
-async function tixy_main(canvas, root) {
+async function flower_main(canvas, root) {
     root = root || ".";
 
     await loadTwgl();
 
-    const fragShader = await getFile(root + "/tixy.frag.c");
-    const tixy = new Tixy(canvas, fragShader);
+    const fragShader = await getFile(root + "/flower.frag.c");
+    const flower = new Flower(canvas, fragShader);
     function f(t) {
         if (t)
-            tixy.render(t);
+            flower.render(t);
         requestAnimationFrame(f);
     }
     f();

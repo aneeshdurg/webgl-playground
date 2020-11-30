@@ -14,7 +14,7 @@ class Provider {
         this.ctx = this.canvas.getContext("2d");
     }
 
-    setup() {}
+    async setup() {}
 
     get_source() { /* returns an canvas that could be used with a Kaleidoscope */
         return this.canvas;
@@ -24,9 +24,9 @@ class Provider {
 }
 
 // Some convenience functions for providers
-function get_provider(obj) {
+async function get_provider(obj) {
     const p = new obj([1000, 1000]);
-    p.setup();
+    await p.setup();
     console.log(p.get_source());
     // document.body.appendChild(g.get_source());
 
@@ -40,8 +40,9 @@ function get_provider(obj) {
     return p.get_source();
 }
 
-async function get_el(params, key) {
+async function get_el(params, key, defaultProvider) {
     key = key || "src";
+    defaultProvider = defaultProvider || Glass;
     const src = params.get(key);
     if (src) {
         const img = new Image();
@@ -51,5 +52,31 @@ async function get_el(params, key) {
     }
 
     const provider = params.get("provider");
-    return get_provider(provider ? eval(provider) : Glass);
+    return await get_provider(provider ? eval(provider) : defaultProvider);
+}
+
+
+const ALLPROVIDERS = [
+    "dots.js",
+    "drop.js",
+    "glass.js",
+    "orbs.js",
+];
+
+async function loadAllProviders(root) {
+    const waiters = ALLPROVIDERS.map(src => new Promise((resolve) => {
+        function resolver() {
+            console.log("Loaded", root + src);
+            resolve();
+        }
+        const script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = root + src;
+        script.onreadystatechange = resolver;
+        script.onload = resolver;
+        document.head.appendChild(script);
+    }));
+
+    for (let waiter of waiters)
+        await waiter;
 }

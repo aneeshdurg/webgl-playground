@@ -1,0 +1,4 @@
+Remove images that don't have sources.
+Add documentation/instructions.
+write a simple static site generator to reduce boiler plate and generate a "front page".
+Autogenerate ALLPROVIDERS by generating a json file during the site generation.

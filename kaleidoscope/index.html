@@ -2,13 +2,11 @@
 <script src="prog.js"></script>
 
 <script src="../provider/provider.js"></script>
-<script src="../provider/glass.js"></script>
-<script src="../floating_orbs/script.js"></script>
-<script src="../provider/orbs.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", async () => {
         await loadTwgl();
+        await loadAllProviders("../provider/");
 
         const params = new URLSearchParams(location.search);
         const el = await get_el(params);

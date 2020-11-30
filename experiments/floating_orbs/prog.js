@@ -99,7 +99,7 @@ class FloatingOrbs {
     }
 }
 
-async function main(canvas) {
+async function floating_orbs_main(canvas) {
     await loadTwgl();
     const dimensions = [1000, 1000];
 

@@ -163,10 +163,6 @@ async function kaleidoscope_main(canvas, img, mode, root) {
 
     if (img.tagName === "VIDEO" || img.tagName == "CANVAS") {
         scope.enableSrcRotation = false;
-        // img.addEventListener('timeupdate', function() {
-        //     console.log("updating texture");
-        //     scope.updateTexture();
-        // });
         setInterval(() => {
             scope.updateTexture();
         }, 5);

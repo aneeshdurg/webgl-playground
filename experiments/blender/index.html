@@ -1,18 +1,23 @@
 <script src="https://aneeshdurg.me/webgl-common/common.js"></script>
 <script src="../provider/provider.js"></script>
 <script src="prog.js"></script>
+
 <script>
     document.addEventListener("DOMContentLoaded", async () => {
         await loadTwgl();
         await loadAllProviders("../provider/");
 
         const params = new URLSearchParams(location.search);
-        const el = await get_el(params);
+        // TODO: add support for multiple providers?
+        const el_1 = await get_el(params, "src1");
+        const el_2 = await get_el(params, "src2");
 
-        scatter_main(document.getElementById("glcanvas-1"), el);
+        scatter_main(
+            document.getElementById("glcanvas-1"),
+            el_1,
+            el_2,
+        );
     });
 </script>
 
 <canvas id="glcanvas-1" style="width: 50%"></canvas>
-<button onclick="window.obj.block_inc()">+</button>
-<button onclick="window.obj.block_dec()">-</button>

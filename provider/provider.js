@@ -101,15 +101,14 @@ function get_provider_selector(defaultProvider, providerKey) {
     return container;
 }
 
-const ALLPROVIDERS = [
-    "dots.js",
-    "drop.js",
-    "glass.js",
-    "orbs.js",
-];
-
 async function loadAllProviders(root) {
-    const waiters = ALLPROVIDERS.map(src => new Promise((resolve) => {
+    const allproviders = JSON.parse(await getFile(root + "allproviders.json"));
+    const waiters = allproviders.map(src => new Promise((resolve) => {
+        if (!src) {
+            resolve();
+            return;
+        }
+
         function resolver() {
             console.log("Loaded", root + src);
             resolve();

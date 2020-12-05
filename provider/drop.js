@@ -2,7 +2,7 @@ class Drop extends Provider {
     setup() {
         this.setup_ctx();
         this.el = document.createElement("div");
-        document.body.appendChild(this.el);
+        document.getElementById("ui").appendChild(this.el);
 
         this.fileSelect = document.createElement("input");
         this.fileSelect.type = "file";

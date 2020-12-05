@@ -32,3 +32,5 @@ class Drop extends Provider {
         this.ctx.drawImage(this.img, 0, 0, this.dimensions[0], this.dimensions[1]);
     }
 }
+
+register_provider({name: 'Dots', description: 'Supply your own image!'});

@@ -1,17 +1,25 @@
 <template>
 <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-        await loadTwgl();
-        await loadAllProviders("../provider/");
+    TITLE = "Kaleidoscope";
+    function entryPoint(el, params) {
+        const btn = document.getElementById('modeselector-submit');
+        btn.onclick = redirector(
+            'mode', document.getElementById('modeselector')
+        );
 
-        const params = new URLSearchParams(location.search);
-        const el = await get_el(params);
-
-        console.log("Mode", params.get("mode") || "RANDOM");
         kaleidoscope_main(
             document.getElementById("glcanvas"),
             el,
             params.get("mode") || "RANDOM"
         );
-    });
+    }
 </script>
+
+<div id="ui-1" style="display: none;">
+    <label for="modeselector">Select camera mode: </label>
+    <select id="modeselector">
+        <option value="RANDOM"> Random </option>
+        <option value="mouse"> Mouse Controlled </option>
+    </select>
+    <button id="modeselector-submit">Go!</button>
+</div>

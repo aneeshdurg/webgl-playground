@@ -1,14 +1,15 @@
 <template>
 <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-        await loadTwgl();
-        await loadAllProviders("../provider/");
-
-        const params = new URLSearchParams(location.search);
-        const el = await get_el(params);
-
+    TITLE = "Scatter pieces of an image";
+    function entryPoint(el) {
         scatter_main(document.getElementById("glcanvas"), el);
-    });
+    }
 </script>
-<button onclick="window.obj.block_inc()">+</button>
-<button onclick="window.obj.block_dec()">-</button>
+
+<div id="ui-1" style="display: none;">
+    <p>Adjust effect:
+    <!-- TODO use a number input instead -->
+    <button onclick="window.obj.block_inc()">+</button>
+    <button onclick="window.obj.block_dec()">-</button>
+    </p>
+</div>

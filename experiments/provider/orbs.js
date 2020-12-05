@@ -7,7 +7,7 @@ class Orbs extends Provider {
             }
             const script = document.createElement("script");
             script.type = "text/javascript";
-            script.src = "../floating_orbs/script.js";
+            script.src = "../floating_orbs/prog.js";
             script.onreadystatechange = resolver;
             script.onload = resolver;
             document.head.appendChild(script);
@@ -19,3 +19,6 @@ class Orbs extends Provider {
         this.obj.tick();
     }
 }
+
+
+register_provider({name: 'Orbs', description: 'Floating orbs of colored light'});

@@ -40,7 +40,8 @@ async function get_provider(obj) {
     return p.get_source();
 }
 
-async function get_el(params, key, defaultProvider) {
+async function get_el(params, key, defaultProvider, providerKey) {
+    providerKey = providerKey || "provider";
     key = key || "src";
     defaultProvider = defaultProvider || Glass;
     const src = params.get(key);
@@ -51,10 +52,54 @@ async function get_el(params, key, defaultProvider) {
         return img;
     }
 
-    const provider = params.get("provider");
+    const provider = params.get(providerKey);
     return await get_provider(provider ? eval(provider) : defaultProvider);
 }
 
+const registered_providers =  [];
+
+function register_provider(descriptor) {
+    // @param descriptor: {name: str, description: str}
+    registered_providers.push(descriptor);
+}
+
+function redirector(key, el) {
+    return () => {
+        const params = new URLSearchParams(location.search);
+        params.set(key, el.value);
+        location.search = params.toString();
+    };
+}
+
+function get_provider_selector(defaultProvider, providerKey) {
+    defaultProvider = defaultProvider || "Glass";
+    providerKey = providerKey || "provider";
+
+    const container = document.createElement("div");
+    container.innerHTML = "<label for='menu'>Choose base for effect: </label>"
+
+    const selector = document.createElement("select");
+    selector.id = "menu";
+    container.appendChild(selector);
+
+    registered_providers.forEach(descriptor => {
+        const entry = document.createElement("option");
+        entry.value = descriptor.name;
+        entry.innerHTML = descriptor.description;
+        if (descriptor.name === defaultProvider)
+            entry.selected = true;
+
+        selector.appendChild(entry);
+    });
+
+    const btn = document.createElement("button");
+    btn.innerHTML = "Go!";
+    btn.onclick = redirector(providerKey, selector);
+
+    container.appendChild(btn);
+
+    return container;
+}
 
 const ALLPROVIDERS = [
     "dots.js",

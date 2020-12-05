@@ -23,3 +23,5 @@ class Dots extends Provider {
         this.ctx.fill();
     }
 }
+
+register_provider({name: 'Dots', description: 'Generate random dots'});

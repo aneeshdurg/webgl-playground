@@ -153,3 +153,5 @@ class Glass extends Provider {
             shape.tick(this.ctx, this.dimensions);
     }
 }
+
+register_provider({name: 'Glass', description: 'Some floating shapes'});

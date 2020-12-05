@@ -27,7 +27,12 @@
                 el.style.display = "";
             });
 
-            el = await get_el(params, "provider", eval(DEFAULT_PROVIDER));
+            el = await get_el(
+                params,
+                "src",
+                eval(DEFAULT_PROVIDER),
+                "provider"
+            );
         }
         entryPoint(el, params);
     });

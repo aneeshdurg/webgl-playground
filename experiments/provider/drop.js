@@ -33,4 +33,4 @@ class Drop extends Provider {
     }
 }
 
-register_provider({name: 'Dots', description: 'Supply your own image!'});
+register_provider({name: 'Drop', description: 'Supply your own image!'});

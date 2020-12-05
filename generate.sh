@@ -26,6 +26,22 @@ do
     done
 done
 
+function generate_all_providers() {
+    echo -n "["
+    for src in $(ls experiments/provider/*.js)
+    do
+        name=$(basename $src)
+        if [ "$name" == "provider.js" ]
+        then
+            continue
+        fi
+        echo -n "\"$name\","
+    done
+    echo -n "null"
+    echo "]"
+}
+generate_all_providers > $outdir/provider/allproviders.json
+
 function generate_descriptions() {
     echo "<ul>"
     for d in $(ls experiments/)

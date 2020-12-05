@@ -1,4 +1,3 @@
 Remove images that don't have sources.
-Autogenerate ALLPROVIDERS by generating a json file during the site generation.
 Make gallery UI to select a source image
 Remove "src" param and create a static image Provider like Drop.

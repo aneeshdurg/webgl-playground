@@ -48,6 +48,9 @@
 </div>
 <canvas id="glcanvas" style="height: 80%"></canvas>
 <script>
+    window.onerror = function(message, source, lineno, colno, error) {
+        alert(message);
+    };
     TITLE = "Kaleidoscope";
     function entryPoint(el, params) {
         const btn = document.getElementById('modeselector-submit');

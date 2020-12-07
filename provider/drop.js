@@ -11,6 +11,9 @@ class Drop extends Provider {
         this.el.appendChild(this.fileSelect);
         this.img = document.createElement('img')
         this.img.src = "../images/blank.png";
+        this.img.onload = () => {
+            alert("loaded img!");
+        };
         this.needsUpdate = false;
     }
 

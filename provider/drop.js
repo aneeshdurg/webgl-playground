@@ -14,11 +14,13 @@ class Drop extends Provider {
     }
 
     uploadImage() {
+        alert("Uploaded file!");
         let file = this.fileSelect.files[0];
-        let reader = new FileReader()
+        let reader = new FileReader();
         const that = this;
         reader.readAsDataURL(file)
         reader.onloadend = function() {
+            alert("Loaded!");
             that.img.src = reader.result
             that.needsUpdate = true;
         }

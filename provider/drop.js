@@ -10,6 +10,7 @@ class Drop extends Provider {
         this.fileSelect.addEventListener("change", this.uploadImage.bind(this));
         this.el.appendChild(this.fileSelect);
         this.img = document.createElement('img')
+        this.img.src = "../images/blank.png";
         this.needsUpdate = false;
     }
 

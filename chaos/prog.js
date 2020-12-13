@@ -1,6 +1,5 @@
-class Flower {
+class Chaos {
     dimensions = [2000, 2000];
-    gridSize = 20;
 
     constructor(canvas, fragShader) {
         canvas.width = this.dimensions[0];
@@ -19,26 +18,25 @@ class Flower {
         // TODO only use one number for dimensions and always assume square
         twgl.setUniforms(this.programInfo, {
             u_resolution: this.dimensions,
-            u_grid_size: this.gridSize,
             u_time: t,
-            u_i: window.i || 0,
-            u_n: window.n || 3
+            u_rand: Math.random()
         });
 
         render(this.gl);
     }
 }
 
-async function flower_main(canvas, root) {
+async function chaos_main(canvas, root) {
     root = root || ".";
 
     await loadTwgl();
 
-    const fragShader = await getFile(root + "/flower.frag.c");
-    const flower = new Flower(canvas, fragShader);
+    const fragShader = await getFile(root + "/compute.frag.c");
+    console.log(fragShader);
+    const chaos = new Chaos(canvas, fragShader);
     function f(t) {
         if (t)
-            flower.render(t);
+            chaos.render(t);
         requestAnimationFrame(f);
     }
     f();

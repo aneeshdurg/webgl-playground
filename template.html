@@ -15,7 +15,9 @@
         let el = null;
         if (!NO_PROVIDER) {
             await loadAllProviders("../provider/");
-            document.getElementById("ui-0").appendChild(get_provider_selector());
+            document.getElementById("ui-0").appendChild(get_provider_selector(
+                params.get("provider") || DEFAULT_PROVIDER
+            ));
 
             document.querySelectorAll('[id^=ui-]').forEach(el => {
                 if (el.id === "ui=0")
@@ -26,23 +28,20 @@
                 el.style.display = "";
             });
 
-            el = await get_el(
-                params,
-                "src",
-                eval(DEFAULT_PROVIDER),
-                "provider"
-            );
+            el = await get_el(params, eval(DEFAULT_PROVIDER), "provider");
         }
         entryPoint(el, params);
     });
 </script>
 
-<div style="max-height: 20%">
-<a href="../"><h1 id="title"></h1></a>
-<div id="ui">
-    <div id="ui-0"></div>
+<div style="max-height: 20%; overflow: auto">
+    <a href="../"><h1 id="title"></h1></a>
+    <div id="ui">
+        <div id="ui-0"></div>
+    </div>
 </div>
 <hr>
 <br><br>
+<div style="width: 100%; text-align: center">
+    <canvas id="glcanvas" style="height: 70%; display: inline"></canvas>
 </div>
-<canvas id="glcanvas" style="height: 80%"></canvas>

@@ -2,10 +2,10 @@
 <script>
     TITLE = "Blender";
     async function entryPoint(el, params) {
-        document.getElementById("ui").appendChild(
-            get_provider_selector(Glass, "provider1")
-        );
-        const el_1 = await get_el(params, "src1", Glass, "provider1");
+        document.getElementById("ui").appendChild(get_provider_selector(
+            params.get("provider1") || "Glass", "provider1"
+        ));
+        const el_1 = await get_el(params, Glass, "provider1");
         blender_main(document.getElementById("glcanvas"), el, el_1);
     }
 </script>

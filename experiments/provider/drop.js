@@ -10,20 +10,21 @@ class Drop extends Provider {
         this.fileSelect.addEventListener("change", this.uploadImage.bind(this));
         this.el.appendChild(this.fileSelect);
         this.img = document.createElement('img')
+        this.img.style.display = "none";
+        document.body.appendChild(this.img);
+        this.img.onload = () => {
+            this.needsUpdate = true;
+        };
         this.needsUpdate = false;
     }
 
     uploadImage() {
-        alert("Uploaded file!");
         let file = this.fileSelect.files[0];
         let reader = new FileReader();
-        const that = this;
         reader.readAsDataURL(file)
-        reader.onloadend = function() {
-            alert("Loaded!");
-            that.img.src = reader.result
-            that.needsUpdate = true;
-        }
+        reader.onloadend = () => {
+            this.img.src = reader.result;
+        };
     }
 
     tick() {

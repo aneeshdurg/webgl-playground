@@ -1,4 +1,6 @@
 #!/bin/bash
+echo -n "Generating: "
+date
 
 outdir=dist
 
@@ -75,4 +77,7 @@ function generate_wallpaper_index() {
     done
     echo "</ul>"
 }
+
 generate_wallpaper_index > $outdir/wallpaper/index.html
+
+echo "done"

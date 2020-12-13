@@ -40,18 +40,7 @@ async function get_provider(obj) {
     return p.get_source();
 }
 
-async function get_el(params, key, defaultProvider, providerKey) {
-    providerKey = providerKey || "provider";
-    key = key || "src";
-    defaultProvider = defaultProvider || Glass;
-    const src = params.get(key);
-    if (src) {
-        const img = new Image();
-        img.src = src;
-        await new Promise(r => {img.onload = r;});
-        return img;
-    }
-
+async function get_el(params, defaultProvider, providerKey) {
     const provider = params.get(providerKey);
     return await get_provider(provider ? eval(provider) : defaultProvider);
 }
@@ -72,7 +61,6 @@ function redirector(key, el) {
 }
 
 function get_provider_selector(defaultProvider, providerKey) {
-    defaultProvider = defaultProvider || "Glass";
     providerKey = providerKey || "provider";
 
     const container = document.createElement("div");

@@ -1,3 +1,6 @@
-Remove images that don't have sources.
-Make gallery UI to select a source image
-Remove "src" param and create a static image Provider like Drop.
+Generate a json file for gallery
+Add a global root path to avoid having to specify frag shader paths in constructors
+thumbnails
+better styling
+remove inline css
+convert each js program to use a base class and remove the global config vars

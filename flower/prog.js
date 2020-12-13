@@ -1,6 +1,5 @@
-class Dots {
-    dimensions = [1000, 1000];
-    radius = 5;
+class Flower {
+    dimensions = [2000, 2000];
     gridSize = 20;
 
     constructor(canvas, fragShader) {
@@ -10,7 +9,6 @@ class Dots {
         this.gl = canvas.getContext("webgl2"/*, {premultipliedAlpha: false}*/);
         if (!this.gl)
             throw new Error("Could not initialize webgl2 context! Does your browser support webgl2?");
-        enableGlExts(this.gl);
 
         this.programInfo = twgl.createProgramInfo(this.gl, [vs, fragShader]);
         const bufferInfo = twgl.createBufferInfoFromArrays(this.gl, bufferArrays);
@@ -20,26 +18,27 @@ class Dots {
     render(t) {
         // TODO only use one number for dimensions and always assume square
         twgl.setUniforms(this.programInfo, {
-            u_dimensions: this.dimensions,
-            u_radius: this.radius,
+            u_resolution: this.dimensions,
             u_grid_size: this.gridSize,
             u_time: t,
+            u_i: window.i || 0,
+            u_n: window.n || 3
         });
 
         render(this.gl);
     }
 }
 
-async function dots_main(canvas, root) {
+async function flower_main(canvas, root) {
     root = root || ".";
 
     await loadTwgl();
 
-    const fragShader = await getFile(root + "/dots.frag.c");
-    const dots = new Dots(canvas, fragShader);
+    const fragShader = await getFile(root + "/flower.frag.c");
+    const flower = new Flower(canvas, fragShader);
     function f(t) {
         if (t)
-            dots.render(t);
+            flower.render(t);
         requestAnimationFrame(f);
     }
     f();

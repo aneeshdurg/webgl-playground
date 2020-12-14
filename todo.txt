@@ -1,4 +1,4 @@
-Generate a json file for gallery
+Split up build script
 Add a global root path to avoid having to specify frag shader paths in constructors
 thumbnails
 better styling

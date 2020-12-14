@@ -1,5 +1,5 @@
 class Gallery extends Provider {
-    setup() {
+    async setup() {
         console.log("!!!");
         this.setup_ctx();
         this.container = document.createElement("div");
@@ -15,25 +15,13 @@ class Gallery extends Provider {
         this.el.style.border = "solid 2px";
         this.el.style.marginLeft = "5%";
 
-        const images = [
-            "../images/AneeshDurg-LakeValhalla.jpg",
-            "../images/Composition_A_by_Piet_Mondrian_Galleria_Nazionale_d'Arte_Moderna_e_Contemporanea.jpg",
-            "../images/blank.png",
-            "../images/ken-cheung-Z2M2KkdNLWQ-unsplash.jpg",
-            "../images/pexels-anni-roenkae-3110502.jpg",
-            "../images/pexels-nika-akin-3598435.jpg",
-            "../images/pexels-steve-johnson-1266808.jpg",
-            "../images/pexels-yaroslav-shuraev-1834393.jpg",
-            "../images/test0.jpg",
-            "../images/test10.jpg",
-            "../images/test11.jpg",
-            "../images/test3.jpg",
-            "../images/test4.jpg",
-        ];
-
+        const images = JSON.parse(await getFile("../images/allimages.json"));
         const img_style = "padding-left: 1em";
 
         for (const src of images) {
+            if (!src)
+                continue;
+
             const img = document.createElement("img");
             img.height = 100;
             img.width = 100;

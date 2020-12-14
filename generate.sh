@@ -44,6 +44,18 @@ function generate_all_providers() {
 }
 generate_all_providers > $outdir/provider/allproviders.json
 
+function generate_all_images() {
+    echo -n "["
+    for src in $(ls static/images/ | grep -v ".*.txt")
+    do
+        echo -n "\"../images/$src\","
+    done
+    echo -n "null"
+    echo "]"
+}
+generate_all_images > $outdir/images/allimages.json
+
+
 function generate_descriptions() {
     echo "<ul>"
     for d in $(ls experiments/)

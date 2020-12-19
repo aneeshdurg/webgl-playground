@@ -80,13 +80,18 @@ class Kaleidoscope {
                     // console.log(that.select_pos);
                 }, 50);
             } else {
-                canvas.addEventListener("mousemove", e => {
-                    const rect = e.target.getBoundingClientRect();
+                const handler = (target, clientX, clientY) => {
+                    const rect = target.getBoundingClientRect();
                     that.select_pos = [
-                        that.img_dimensions[0] * (e.clientX - rect.left) / rect.width,
-                        that.img_dimensions[1] * (e.clientY - rect.top) / rect.height
+                        that.img_dimensions[0] * (clientX - rect.left) / rect.width,
+                        that.img_dimensions[1] * (clientY - rect.top) / rect.height
                     ];
-                });
+                };
+
+                canvas.addEventListener("mousemove", e => handler(e.target, e.clientX, e.clientY));
+                canvas.addEventListener(
+                    "touchmove", e => handler(e.target, e.touches[0].clientX, e.touches[0].clientY)
+                );
             }
         }
 

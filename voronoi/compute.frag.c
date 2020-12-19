@@ -58,6 +58,13 @@ void main() {
     const vec3 lum = vec3(0.3, 0.59, 0.11);
     if (dot(lum, target.rgb) > 0.9)
         color = vec4(c.x, c.y, 0., 1.);
+    else if (color.a == 1.) {
+        vec4 src = texelFetch(u_texture_img, ivec2(color.rg), 0);
+        if (dot(lum, src.rgb) <= 0.9) {
+            // invalidate known best color
+            color.a = 0.;
+        }
+    }
 
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
@@ -67,8 +74,11 @@ void main() {
             vec4 pt = texelFetch(u_texture, ivec2(coords) + offset, 0);
             if (pt.a == 1.) {
                 float distToSelf = length(c.xy - pt.xy);
-                if (color.a == 0. || distToSelf < color.b)
-                color = vec4(pt.xy, distToSelf, 1.);
+                vec4 src = texelFetch(u_texture_img, ivec2(pt.rg), 0);
+                if (dot(lum, src.rgb) > 0.9) {
+                    if (color.a == 0. || distToSelf < color.b)
+                        color = vec4(pt.xy, distToSelf, 1.);
+                }
             }
         }
     }

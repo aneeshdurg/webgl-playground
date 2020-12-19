@@ -84,7 +84,9 @@ function generate_wallpaper_index() {
         then
             continue
         fi
-        echo "<a href=\"./$line\"><img src=\"./$line\"/></a>"
+        echo "<a href=\"./$line\">"
+        echo "    <img class= src=\"./$line\"/>"
+        echo "</a>"
         echo "<br><br>"
     done
     echo "</ul>"

@@ -6,8 +6,8 @@ class Webcam extends Provider {
         const constraints = {
             video: {
                 mandatory: {
-                    maxWidth:  this.dimensions[0],
-                    maxHeight: this.dimensions[1]
+                    maxWidth: 320,
+                    maxHeight: 180
                 }
             }
         }
@@ -20,7 +20,7 @@ class Webcam extends Provider {
                     this.video.play();
                     r();
                 },
-                function(){
+                function(e){
                     alert("webcam init failed!");
                 }
             );

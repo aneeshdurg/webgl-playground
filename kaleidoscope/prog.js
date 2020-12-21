@@ -16,8 +16,6 @@ class Kaleidoscope {
     constructor(canvas, img, fragShader, mousecontrols) {
         this.img = img;
 
-        this.img_dimensions = [img.width || img.videoWidth, img.height || img.videoHeight];
-
         //const rect = canvas.getBoundingClientRect();
         //this.dimensions = [rect.width, rect.height];
         this.dimensions = [1000, 1000];
@@ -33,7 +31,7 @@ class Kaleidoscope {
         const bufferInfo = twgl.createBufferInfoFromArrays(this.gl, bufferArrays);
         setupProgram(this.gl, this.programInfo, bufferInfo);
 
-        this.select_pos = this.img_dimensions.map(x => x / 2);
+        this.select_pos = this.img_dimensions().map(x => x / 2);
 
         const that = this;
 
@@ -47,22 +45,22 @@ class Kaleidoscope {
                     that.select_pos[1] += velocity[1];
 
                     let needs_new_vel = false;
-                    if (that.select_pos[0] > that.img_dimensions[0]) {
+                    if (that.select_pos[0] > that.img_dimensions()[0]) {
                         needs_new_vel = true;
-                        that.select_pos[0] = that.img_dimensions[0];
+                        that.select_pos[0] = that.img_dimensions()[0];
                     } else if (that.select_pos[0] < 0) {
                         needs_new_vel = true;
                         that.select_pos[0] = 0;
-                    } else if (that.select_pos[1] > that.img_dimensions[1]) {
+                    } else if (that.select_pos[1] > that.img_dimensions()[1]) {
                         needs_new_vel = true;
-                        that.select_pos[1] = that.img_dimensions[1];
+                        that.select_pos[1] = that.img_dimensions()[1];
                     } else if (that.select_pos[1] < 0) {
                         needs_new_vel = true;
                         that.select_pos[1] = 0;
                     }
 
                     if (needs_new_vel)
-                        console.log("*", ...that.select_pos, "\n", ...that.target_dimensions, "\n", ...that.img_dimensions);
+                        console.log("*", ...that.select_pos, "\n", ...that.target_dimensions, "\n", ...that.img_dimensions());
 
                     velCounter++;
                     if (needs_new_vel)
@@ -83,8 +81,8 @@ class Kaleidoscope {
                 const handler = (target, clientX, clientY) => {
                     const rect = target.getBoundingClientRect();
                     that.select_pos = [
-                        that.img_dimensions[0] * (clientX - rect.left) / rect.width,
-                        that.img_dimensions[1] * (clientY - rect.top) / rect.height
+                        that.img_dimensions()[0] * (clientX - rect.left) / rect.width,
+                        that.img_dimensions()[1] * (clientY - rect.top) / rect.height
                     ];
                 };
 
@@ -103,9 +101,9 @@ class Kaleidoscope {
             that.update();
         });
 
-        this.target_dimensions = [this.img_dimensions[0] / 2, this.img_dimensions[1] / 2];
+        this.target_dimensions = [this.img_dimensions()[0] / 2, this.img_dimensions()[1] / 2];
 
-        this.tex = createTexture(this.gl, this.img_dimensions, img);
+        this.tex = createTexture(this.gl, this.img_dimensions(), img);
 
         this.src_angle = 0;
         this.dst_angle = 0;
@@ -121,11 +119,15 @@ class Kaleidoscope {
         }, 10);
     }
 
+    img_dimensions() {
+        return [this.img.width || this.img.videoWidth, this.img.height || this.img.videoHeight];
+    }
+
     render() {
         // TODO only use one number for dimensions and always assume square
         twgl.setUniforms(this.programInfo, {
             u_dimensions: this.dimensions,
-            u_img_dimensions: this.img_dimensions,
+            u_img_dimensions: this.img_dimensions(),
             u_texture: this.tex,
             u_target_dimensions: this.target_dimensions,
             u_select_pos: this.select_pos,
@@ -143,7 +145,7 @@ class Kaleidoscope {
     updateTexture() {
         updateTexture(
             this.gl,
-            this.img_dimensions,
+            this.img_dimensions(),
             this.tex,
             this.img
         );

@@ -7,6 +7,12 @@
             'mode', document.getElementById('modeselector')
         );
 
+        const mode = params.get("mode");
+        if (mode === "mouse")
+            document.getElementById("modeselector-mouse").selected = true
+        else
+            document.getElementById("modeselector-random").selected = true;
+
         kaleidoscope_main(
             document.getElementById("glcanvas"),
             el,
@@ -18,8 +24,8 @@
 <div id="ui-1" style="display: none;">
     <label for="modeselector">Select camera mode: </label>
     <select id="modeselector">
-        <option value="RANDOM"> Random </option>
-        <option value="mouse"> Mouse Controlled </option>
+        <option id="modeselector-random" value="RANDOM"> Random </option>
+        <option id="modeselector-mouse" value="mouse"> Mouse Controlled </option>
     </select>
     <button id="modeselector-submit">Go!</button>
 </div>

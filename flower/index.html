@@ -13,6 +13,14 @@
         await loadTwgl();
 
         const params = new URLSearchParams(location.search);
+        if (params.get("debug") == "true") {
+            console.log("DEBUG MODE");
+            const s = document.createElement("script");
+            s.src = "//cdn.jsdelivr.net/npm/eruda";
+            s.onload = () => { eruda.init(); };
+            document.body.appendChild(s);
+        }
+
         let el = null;
         if (!NO_PROVIDER) {
             await loadAllProviders("../provider/");

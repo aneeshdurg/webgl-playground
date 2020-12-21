@@ -6,25 +6,19 @@ class Webcam extends Provider {
         const constraints = {
             video: {
                 mandatory: {
-                    maxWidth:  this.dimensions[0],
-                    maxHeight: this.dimensions[1]
+                    maxWidth: 320,
+                    maxHeight: 180
                 }
             }
         }
 
-        await new Promise((r) => {
-            navigator.getUserMedia(
-                constraints,
-                (stream) => {
-                    this.video.srcObject = stream;
-                    this.video.play();
-                    r();
-                },
-                function(){
-                    alert("webcam init failed!");
-                }
-            );
-        });
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            this.video.srcObject = stream;
+            this.video.play();
+        } catch (err) {
+            alert("Error initializing webcam!");
+        }
     }
 
     tick() {

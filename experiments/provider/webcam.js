@@ -20,7 +20,9 @@ class Webcam extends Provider {
                     this.video.play();
                     r();
                 },
-                function(){}
+                function(){
+                    alert("webcam init failed!");
+                }
             );
         });
     }

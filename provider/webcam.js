@@ -26,6 +26,8 @@ class Webcam extends Provider {
                 }
             );
         });
+
+        document.body.appendChild(this.canvas);
     }
 
     tick() {

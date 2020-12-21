@@ -12,22 +12,13 @@ class Webcam extends Provider {
             }
         }
 
-        await new Promise((r) => {
-            navigator.getUserMedia(
-                constraints,
-                (stream) => {
-                    this.video.srcObject = stream;
-                    this.video.play();
-                    r();
-                },
-                function(e){
-                    alert("webcam init failed!");
-                    console.log(e);
-                }
-            );
-        });
-
-        document.body.appendChild(this.canvas);
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            this.video.srcObject = stream;
+            this.video.play();
+        } catch (err) {
+            alert("Error initializing webcam!");
+        }
     }
 
     tick() {

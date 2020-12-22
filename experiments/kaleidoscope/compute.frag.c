@@ -18,8 +18,6 @@ uniform vec2 u_select_pos;
 
 uniform float u_hex_size;
 
-uniform bool u_display_edges;
-
 out vec4 color_out;
 
 vec4 get_color_from_triangle(float r, float theta) {
@@ -43,11 +41,6 @@ vec4 get_color_from_triangle(float r, float theta) {
     vec2 final =
         target_r * vec2(cos(target_theta), sin(target_theta)) +
         u_target_dimensions / 2.;
-
-    if (u_display_edges) {
-        if (theta < 0.005 || theta > (PI / 6. - 0.005))
-            return vec4(0., 0., 0., 1.);
-    }
 
     return texelFetch(u_texture, ivec2(final), 0);
 }

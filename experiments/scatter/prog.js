@@ -67,7 +67,6 @@ async function scatter_main(canvas, img, root) {
     }
 
     if (img.tagName === "VIDEO" || img.tagName == "CANVAS") {
-        obj.enableSrcRotation = false;
         setInterval(() => {
             obj.updateTexture();
         }, 5);

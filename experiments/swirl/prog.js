@@ -57,10 +57,7 @@ async function swirl_main(canvas, img, root) {
     }
 
     if (img.tagName === "VIDEO" || img.tagName == "CANVAS") {
-        obj.enableSrcRotation = false;
-        setInterval(() => {
-            obj.updateTexture();
-        }, 5);
+        setInterval(() => { obj.updateTexture(); }, 5);
     }
 
     requestAnimationFrame(f);

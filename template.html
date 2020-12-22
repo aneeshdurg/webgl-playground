@@ -20,6 +20,15 @@
             document.body.appendChild(s);
         }
 
+        document.querySelectorAll('[id^=ui-]').forEach(obj => {
+            if (obj.id === "ui=0")
+                return;
+
+            obj.remove();
+            document.getElementById("ui").appendChild(obj);
+            obj.style.display = "";
+        });
+
         let el = null;
         if (!NO_PROVIDER) {
             await loadAllProviders("../provider/");
@@ -27,17 +36,9 @@
                 params.get("provider") || DEFAULT_PROVIDER
             ));
 
-            document.querySelectorAll('[id^=ui-]').forEach(el => {
-                if (el.id === "ui=0")
-                    return;
-
-                el.remove();
-                document.getElementById("ui").appendChild(el);
-                el.style.display = "";
-            });
-
             el = await get_el(params, eval(DEFAULT_PROVIDER), "provider");
         }
+
         entryPoint(el, params);
     });
 </script>

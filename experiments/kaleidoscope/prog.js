@@ -4,11 +4,6 @@ class Kaleidoscope {
     select_pos = [0, 0];
     hex_size = 200;
 
-    enableSrcRotation = false;
-    src_delta = 0.01;
-    enableDstRotation = false;
-    dst_delta = 0.04;
-
     enableWander = true;
 
     display_edges = false;
@@ -104,19 +99,6 @@ class Kaleidoscope {
         this.target_dimensions = [this.img_dimensions()[0] / 2, this.img_dimensions()[1] / 2];
 
         this.tex = createTexture(this.gl, this.img_dimensions(), img);
-
-        this.src_angle = 0;
-        this.dst_angle = 0;
-        setInterval(() => {
-            function update_angle(angle, delta) {
-                let newangle = angle + delta;
-                if (newangle >= 360)
-                    newangle -= 360;
-                return newangle;
-            }
-            that.src_angle = update_angle(that.src_angle, that.src_delta);
-            that.dst_angle = update_angle(that.dst_angle, that.dst_delta);
-        }, 10);
     }
 
     img_dimensions() {
@@ -132,8 +114,6 @@ class Kaleidoscope {
             u_target_dimensions: this.target_dimensions,
             u_select_pos: this.select_pos,
             u_hex_size: this.hex_size,
-            u_src_angle: this.enableSrcRotation ? this.src_angle : 0,
-            u_dst_angle: this.enableDstRotation ? this.dst_angle : 0,
             u_display_edges: this.display_edges,
         });
 
@@ -169,7 +149,6 @@ async function kaleidoscope_main(canvas, img, mode, root) {
     }
 
     if (img.tagName === "VIDEO" || img.tagName == "CANVAS") {
-        scope.enableSrcRotation = false;
         setInterval(() => {
             scope.updateTexture();
         }, 5);

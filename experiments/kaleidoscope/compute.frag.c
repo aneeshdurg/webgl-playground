@@ -17,8 +17,6 @@ uniform vec2 u_target_dimensions;
 uniform vec2 u_select_pos;
 
 uniform float u_hex_size;
-uniform float u_src_angle;
-uniform float u_dst_angle;
 
 uniform bool u_display_edges;
 
@@ -37,15 +35,10 @@ vec4 get_color_from_triangle(float r, float theta) {
         u_select_pos.x + ((src_y + 1.) / 2.) * u_target_dimensions.x;
     float target_y = u_select_pos.y + src_x * u_target_dimensions.y;
 
-    // float target_y = src_x * u_img_dimensions.x;
-    // float target_x = ((src_y + src_x) / (2. * src_x)) * u_img_dimensions.y;
-    // return texelFetch(u_texture, ivec2(u_img_dimensions.x / 2., target_y), 0);
-
     vec2 centered = vec2(target_x, target_y) - u_target_dimensions / 2.;
 
     float target_r = length(centered);
     float target_theta = atan(centered.y, centered.x);
-    target_theta += PI * u_src_angle / 180.;
 
     vec2 final =
         target_r * vec2(cos(target_theta), sin(target_theta)) +
@@ -133,17 +126,12 @@ vec2 get_coords() {
 
     float r = length(rotated);
     float theta = atan(rotated.y, rotated.x);
-    theta += PI * u_dst_angle / 180.;
 
     return r * vec2(cos(theta), sin(theta)) + (u_dimensions / 2.);
 }
 
 void main() {
     vec2 c = get_coords();
-
-    // c /= u_dimensions;
-    // color_out = vec4(c, 0.0, 1.0);
-    // return;
 
     vec2 hex = get_hex_origin(c, u_hex_size);
     vec2 coords = c - hex;
@@ -165,6 +153,6 @@ void main() {
         theta -= 4. * PI / 3.;
     else if (theta > (9. * PI / 6.) && theta <= (11. * PI / 6.))
         theta -= 5. * PI / 3.;
-    //else
+
     color_out = get_color_from_triangle(r, theta);
 }

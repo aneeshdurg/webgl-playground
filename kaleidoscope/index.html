@@ -21,6 +21,15 @@
             document.body.appendChild(s);
         }
 
+        document.querySelectorAll('[id^=ui-]').forEach(obj => {
+            if (obj.id === "ui=0")
+                return;
+
+            obj.remove();
+            document.getElementById("ui").appendChild(obj);
+            obj.style.display = "";
+        });
+
         let el = null;
         if (!NO_PROVIDER) {
             await loadAllProviders("../provider/");
@@ -28,17 +37,9 @@
                 params.get("provider") || DEFAULT_PROVIDER
             ));
 
-            document.querySelectorAll('[id^=ui-]').forEach(el => {
-                if (el.id === "ui=0")
-                    return;
-
-                el.remove();
-                document.getElementById("ui").appendChild(el);
-                el.style.display = "";
-            });
-
             el = await get_el(params, eval(DEFAULT_PROVIDER), "provider");
         }
+
         entryPoint(el, params);
     });
 </script>
@@ -56,31 +57,16 @@
 </div>
 <script>
     TITLE = "Kaleidoscope";
-    function entryPoint(el, params) {
-        const btn = document.getElementById('modeselector-submit');
-        btn.onclick = redirector(
-            'mode', document.getElementById('modeselector')
-        );
-
-        const mode = params.get("mode");
-        if (mode === "mouse")
-            document.getElementById("modeselector-mouse").selected = true
-        else
-            document.getElementById("modeselector-random").selected = true;
-
-        kaleidoscope_main(
-            document.getElementById("glcanvas"),
-            el,
-            params.get("mode") || "RANDOM"
-        );
+    function entryPoint(el) {
+        const selector  = document.getElementById("modeselector")
+        kaleidoscope_main(document.getElementById("glcanvas"), el, selector);
     }
 </script>
 
 <div id="ui-1" style="display: none;">
     <label for="modeselector">Select camera mode: </label>
     <select id="modeselector">
-        <option id="modeselector-random" value="RANDOM"> Random </option>
+        <option id="modeselector-random" value="random"> Random </option>
         <option id="modeselector-mouse" value="mouse"> Mouse Controlled </option>
     </select>
-    <button id="modeselector-submit">Go!</button>
 </div>

@@ -21,6 +21,15 @@
             document.body.appendChild(s);
         }
 
+        document.querySelectorAll('[id^=ui-]').forEach(obj => {
+            if (obj.id === "ui=0")
+                return;
+
+            obj.remove();
+            document.getElementById("ui").appendChild(obj);
+            obj.style.display = "";
+        });
+
         let el = null;
         if (!NO_PROVIDER) {
             await loadAllProviders("../provider/");
@@ -28,17 +37,9 @@
                 params.get("provider") || DEFAULT_PROVIDER
             ));
 
-            document.querySelectorAll('[id^=ui-]').forEach(el => {
-                if (el.id === "ui=0")
-                    return;
-
-                el.remove();
-                document.getElementById("ui").appendChild(el);
-                el.style.display = "";
-            });
-
             el = await get_el(params, eval(DEFAULT_PROVIDER), "provider");
         }
+
         entryPoint(el, params);
     });
 </script>
@@ -55,9 +56,24 @@
     <canvas id="glcanvas" style="height: 70%; display: inline"></canvas>
 </div>
 <script>
-    TITLE = "Voronoi";
-    DEFAULT_PROVIDER = 'Dots';
+    TITLE = "Plot a function in polar coordinates";
+    NO_PROVIDER = true;
+    should_log = false;
     function entryPoint(el) {
-        voronoi_main(document.getElementById("glcanvas"), el);
+      plotter_main(
+          document.getElementById("glcanvas"),
+          document.getElementById("inputcode")
+      );
     }
 </script>
+
+<div id="ui-1" style="display: none;">
+    <p>
+    Plot the supplied function over time. The function is given the current
+    time, the number of iterations and all past output as input. The output must
+    be an array of <code>[r, theta, size]</code> and a dot of radius
+    <code>size</code> will be displayed at the coordinates <code>(r, theta)</code>
+    </p>
+    <br>
+    <code>(t, n, past)=> </code><input id="inputcode"></input>
+</div>

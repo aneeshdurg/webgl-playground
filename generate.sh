@@ -79,7 +79,7 @@ generate_descriptions >> $outdir/index.html
 gitsrc="https://github.com/aneeshdurg/webgl-playground"
 homepage="https://aneeshdurg.me/"
 cat >> $outdir/index.html <<EOF
-<footer style="position:fixed;left:10;bottom: 10;width: 100%;">
+<footer>
 <hr>
 <table>
     <tr>

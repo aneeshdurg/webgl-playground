@@ -1,0 +1,64 @@
+
+<script src="https://aneeshdurg.me/webgl-common/common.js"></script>
+<script src="../provider/provider.js"></script>
+<script src="prog.js"></script>
+
+<script>
+    TITLE = "";
+    NO_PROVIDER = false;
+    DEFAULT_PROVIDER = 'Glass';
+    document.addEventListener("DOMContentLoaded", async () => {
+        document.getElementById("title").innerHTML = TITLE;
+
+        await loadTwgl();
+
+        const params = new URLSearchParams(location.search);
+        if (params.get("debug") == "true") {
+            console.log("DEBUG MODE");
+            const s = document.createElement("script");
+            s.src = "//cdn.jsdelivr.net/npm/eruda";
+            s.onload = () => { eruda.init(); };
+            document.body.appendChild(s);
+        }
+
+        document.querySelectorAll('[id^=ui-]').forEach(obj => {
+            if (obj.id === "ui=0")
+                return;
+
+            obj.remove();
+            document.getElementById("ui").appendChild(obj);
+            obj.style.display = "";
+        });
+
+        let el = null;
+        if (!NO_PROVIDER) {
+            await loadAllProviders("../provider/");
+            document.getElementById("ui-0").appendChild(get_provider_selector(
+                params.get("provider") || DEFAULT_PROVIDER
+            ));
+
+            el = await get_el(params, eval(DEFAULT_PROVIDER), "provider");
+        }
+
+        entryPoint(el, params);
+    });
+</script>
+
+<div style="max-height: 20%; overflow: auto">
+    <a href="../"><h1 id="title"></h1></a>
+    <div id="ui">
+        <div id="ui-0"></div>
+    </div>
+</div>
+<hr>
+<br><br>
+<div style="width: 100%; text-align: center">
+    <canvas id="glcanvas" style="height: 70%; display: inline"></canvas>
+</div>
+<script>
+    TITLE = "Voronoi";
+    DEFAULT_PROVIDER = 'Dots';
+    function entryPoint(el) {
+        voronoi_main(document.getElementById("glcanvas"), el);
+    }
+</script>

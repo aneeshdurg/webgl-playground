@@ -76,6 +76,28 @@ function generate_descriptions() {
 cp index.html $outdir/
 generate_descriptions >> $outdir/index.html
 
+gitsrc="https://github.com/aneeshdurg/webgl-playground"
+homepage="https://aneeshdurg.me/"
+cat >> $outdir/index.html <<EOF
+<footer style="position:fixed;left:10;bottom: 10;width: 100%;">
+<hr>
+<table>
+    <tr>
+        <td style="text-align: right">Source code:</td>
+        <td><a href="$gitsrc">$gitsrc</a></td>
+    </tr>
+    <tr>
+        <td style="text-align: right">My homepage:</td>
+        <td><a href="$homepage">$homepage</a></td>
+    </tr>
+    <tr>
+        <td style="text-align: right">Generated on:</td>
+        <td>$(date)</td>
+    </tr>
+</table>
+</footer>
+EOF
+
 function generate_wallpaper_index() {
     echo "<ul>"
     ls $outdir/wallpaper/ | while read line

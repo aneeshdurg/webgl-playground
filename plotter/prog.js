@@ -13,24 +13,21 @@ class Plotter {
         this.code_el = code_el;
         this.code_el.onchange = this.codechange.bind(this);
         this.codechange();
-        // this.img = img;
 
-        // this.img_dimensions = [img.width || img.videoWidth, img.height || img.videoHeight];
+        this.dimensions = [1000, 1000];
 
-        // this.dimensions = [1000, 1000];
+        canvas.width = this.dimensions[0];
+        canvas.height = this.dimensions[1];
+        this.gl = canvas.getContext("webgl2");
+        if (!this.gl)
+            throw new Error("Could not initialize webgl2 context! Does your browser support webgl2?");
+        enableGlExts(this.gl);
 
-        // canvas.width = this.dimensions[0];
-        // canvas.height = this.dimensions[1];
-        // this.gl = canvas.getContext("webgl2"/*, {premultipliedAlpha: false}*/);
-        // if (!this.gl)
-        //     throw new Error("Could not initialize webgl2 context! Does your browser support webgl2?");
-        // enableGlExts(this.gl);
+        this.programInfo = twgl.createProgramInfo(this.gl, [vs, fragShader]);
+        const bufferInfo = twgl.createBufferInfoFromArrays(this.gl, bufferArrays);
+        setupProgram(this.gl, this.programInfo, bufferInfo);
 
-        // this.programInfo = twgl.createProgramInfo(this.gl, [vs, fragShader]);
-        // const bufferInfo = twgl.createBufferInfoFromArrays(this.gl, bufferArrays);
-        // setupProgram(this.gl, this.programInfo, bufferInfo);
-
-        // this.tex = createTexture(this.gl, this.img_dimensions, img);
+        this.fbs = new FrameBufferManager(this.gl, this.dimensions);
     }
 
     codechange() {
@@ -49,22 +46,35 @@ class Plotter {
     render(time) {
         if (this.needs_reset) {
             this.reset_time = time;
-            this.needs_reset = false;
         }
 
-        this.past.unshift(this.callback(time - this.reset_time, this.n++, this.past));
+        const val = this.callback(time - this.reset_time, this.n++, this.past);
+        if (!(val instanceof Array) || val.length != 3) {
+            // TODO communicate an error to the user somehow
+            return;
+        }
+
+        this.past.unshift(val);
         if (window.should_log) {
             console.log(this.past[0]);
         }
-        // twgl.setUniforms(this.programInfo, {
-        //     u_dimensions: this.dimensions,
-        //     u_img_dimensions: this.img_dimensions,
-        //     u_block: [this.block, this.block],
-        //     u_texture: this.tex,
-        //     u_time: time,
-        // });
 
-        // render(this.gl);
+        this.fbs.bind_dst();
+        twgl.setUniforms(this.programInfo, {
+            u_dimensions: this.dimensions,
+            u_texture: this.fbs.src(),
+            u_r: val[0],
+            u_theta: val[1],
+            u_size: val[2],
+            u_reset: this.needs_reset,
+        });
+        render(this.gl);
+
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        render(this.gl);
+
+        this.needs_reset = false;
+        this.fbs.flipflop();
     }
 }
 

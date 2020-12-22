@@ -1,0 +1,23 @@
+<template>
+<script>
+    TITLE = "Plot a function in polar coordinates";
+    NO_PROVIDER = true;
+    should_log = false;
+    function entryPoint(el) {
+      plotter_main(
+          document.getElementById("glcanvas"),
+          document.getElementById("inputcode")
+      );
+    }
+</script>
+
+<div id="ui-1" style="display: none;">
+    <p>
+    Plot the supplied function over time. The function is given the current
+    time, the number of iterations and all past output as input. The output must
+    be an array of <code>[r, theta, size]</code> and a dot of radius
+    <code>size</code> will be displayed at the coordinates <code>(r, theta)</code>
+    </p>
+    <br>
+    <code>(t, n, past)=> </code><textarea id="inputcode"></textarea>
+</div>

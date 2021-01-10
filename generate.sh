@@ -99,7 +99,7 @@ cat >> $outdir/index.html <<EOF
 EOF
 
 function generate_wallpaper_index() {
-    echo "<ul>"
+    # echo "<ul>"
     ls $outdir/wallpaper/ | while read line
     do
         if [ "$line" == "index.html" ]
@@ -107,13 +107,14 @@ function generate_wallpaper_index() {
             continue
         fi
         echo "<a href=\"./$line\">"
-        echo "    <img class= src=\"./$line\"/>"
+        echo "    <img class="thumbnail" src=\"./$line\"/>"
         echo "</a>"
-        echo "<br><br>"
+        # echo "<br><br>"
     done
-    echo "</ul>"
+    # echo "</ul>"
 }
 
-generate_wallpaper_index > $outdir/wallpaper/index.html
+cp wallpaper.html $outdir/wallpaper/index.html
+generate_wallpaper_index >> $outdir/wallpaper/index.html
 
 echo "done"
